@@ -15,11 +15,20 @@ public class MainController {
     @Value("${config.date: No Date}")
     private String date;
 
-    @Autowired
     private Properties properties;
+    @Autowired
+    public void setProperties(Properties properties) {
+        System.out.println("Initializing from configuration file");
+        this.properties = properties;
+        System.out.println(getLoadedData());
+    }
 
     @GetMapping("/info")
     public String getChannleInfo(){
+        return getLoadedData();
+    }
+
+    private String getLoadedData() {
         JsonObject jsonpObject = new JsonObject();
         jsonpObject.addProperty("config.type", properties.getType());
         jsonpObject.addProperty("config.name", properties.getName());
